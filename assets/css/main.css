@@ -1,118 +1,169 @@
+/* assets/css/main.css */
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: 'Fira sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fira Sans', sans-serif;
 }
 
 body {
-	background-color: rgb(38, 35, 54);
-	color: #FFF;
+    background-color: rgb(38, 35, 54);
+    color: #FFF;
 }
 
 main {
-	width: 100%;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding-top: 2rem;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem;
 }
 
 main h1 {
-	font-size: 2.5rem;
-	text-transform: capitalize;
-	margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    text-transform: capitalize;
+    margin-bottom: 0.5rem;
 }
 
 main h1 ~ p {
-	margin-bottom: 2rem;
+    margin-bottom: 2rem;
 }
 
 main .create-new {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	max-width: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 480px;
+    width: 100%; /* Full width on smaller screens */
 }
 
 main .create-new input {
-	appearance: none;
-	border: none;
-	outline: none;
-	border-bottom: 1px solid #FFF;
-	background-color: transparent;
-	color: #FFF;
-	font-size: 1.5rem;
-	padding-top: 0.5rem;
-	padding-bottom: 0.5rem;
-	margin: 0;
-	transition: 0.4s;
+    appearance: none;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #FFF;
+    background-color: transparent;
+    color: #FFF;
+    font-size: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin: 0;
+    transition: 0.4s;
+    flex: 1; /* Allow input to grow and fill available space */
 }
 
 main .create-new input:focus {
-	border-bottom-color: rgb(47, 214, 111);
+    border-bottom-color: rgb(47, 214, 111);
 }
 
 main .create-new button {
-	appearance: none;
-	border: none;
-	outline: none;
-	background-color: rgb(47, 214, 111);
-	text-transform: uppercase;
-	font-weight: bold;
-	color: #000;
-	font-size: 1.5rem;
-	padding: 0.5rem 1rem;
-	border-radius: 0.5rem;
-	margin-left: 0.5rem;
-	cursor: pointer;
+    appearance: none;
+    border: none;
+    outline: none;
+    background-color: rgb(47, 214, 111);
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
 }
 
 main .tasks {
-	width: 100%;
-	max-width: 480px;
-	margin-top: 2rem;
+    width: 100%;
+    max-width: 480px;
+    margin-top: 2rem;
 }
 
 main .tasks .task {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	background-color: rgb(52, 47, 78);
-	padding: 1rem;
-	border-radius: 0.5rem;
-	margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(52, 47, 78);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 main .tasks .task .buttons {
-	min-width: fit-content;
+    min-width: fit-content;
 }
 
 main .tasks .task button {
-	appearance: none;
-	border: none;
-	outline: none;
-	background-color: rgb(47, 214, 111);
-	text-transform: uppercase;
-	font-weight: bold;
-	color: #000;
-	font-size: 0.875rem;
-	padding: 0.5rem 1rem;
-	border-radius: 0.5rem;
-	margin-left: 0.5rem;
-	cursor: pointer;
+    appearance: none;
+    border: none;
+    outline: none;
+    background-color: rgb(47, 214, 111);
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
 }
 
 main .tasks .task button.delete {
-	background-color: crimson;
-	color: #EEE;
+    background-color: crimson;
+    color: #EEE;
 }
 
 .tasks .task.is-complete {
-	opacity: 0.7;
+    opacity: 0.7;
 }
 
 .tasks .task.is-complete .content {
-	text-decoration: line-through;
+    text-decoration: line-through;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    main h1 {
+        font-size: 2rem; /* Smaller heading on tablet */
+    }
+
+    main .create-new input {
+        font-size: 1.2rem; /* Smaller input on tablet */
+    }
+
+    main .create-new button {
+        font-size: 1.2rem; /* Smaller button on tablet */
+    }
+
+    main .tasks {
+        padding: 0 1rem; /* Add horizontal padding */
+    }
+}
+
+@media (max-width: 480px) {
+    main h1 {
+        font-size: 1.5rem; /* Even smaller heading on mobile */
+    }
+
+    main .create-new {
+        flex-direction: column; /* Stack input and button */
+    }
+
+    main .create-new input {
+        width: 100%; /* Full width input */
+        margin-bottom: 0.5rem; /* Space between input and button */
+    }
+
+    main .create-new button {
+        width: 100%; /* Full width button */
+    }
+
+    main .tasks .task {
+        flex-direction: column; /* Stack task buttons on mobile */
+        align-items: flex-start; /* Align items to start */
+    }
+
+    main .tasks .task .buttons {
+        width: 100%; /* Make buttons full width */
+        justify-content: space-between; /* Space between buttons */
+    }
 }

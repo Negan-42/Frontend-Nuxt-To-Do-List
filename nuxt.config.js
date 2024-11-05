@@ -1,3 +1,5 @@
+// nuxt.config.js
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -21,11 +23,12 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    "~/assets/css/main.css"
+     "~/assets/css/main.css"
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/loadLocalStorage.js', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -41,5 +44,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend(config, { isDev, isHMR }) {
+      // Ensure babel-loader is applied to JavaScript files in node_modules
+      const babelLoader = config.module.rules.find(rule => rule.loader === 'babel-loader');
+      if (babelLoader) {
+        // Exclude node_modules except for chart.js and vue-chartjs
+        babelLoader.exclude = /node_modules\/(?!chart\.js|vue-chartjs)/;
+      }
+    }
   }
 }
