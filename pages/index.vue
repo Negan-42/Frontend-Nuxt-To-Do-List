@@ -1,5 +1,6 @@
 <template>
   <div class="task-board">
+    <button @click="testApiConnection">Test API Connection</button>
     <h1>Task Board</h1>
     <p>Create Tasks</p>
 
@@ -31,6 +32,7 @@
           :move="checkMove"
           :animation="200"
           handle=".drag-handle"
+          :force-fallback="true"
         >
           <Task v-for="task in localTasks" :key="task.id" :task="task" />
         </draggable>
@@ -43,11 +45,14 @@
 import draggable from "vuedraggable";
 import { mapState } from "vuex";
 import TaskChart from "@/components/Task_Chart.vue";
+import Task from "@/components/Task.vue";
 
 export default {
+  middleware: 'auth',
   components: {
     draggable,
     TaskChart,
+    Task,
   },
   data() {
     return {
@@ -60,7 +65,7 @@ export default {
       return this.tasks;
     },
     completedTasks() {
-      return this.tasks.filter((task) => task.done).length;
+      return this.tasks ? this.tasks.filter(task => task.completed) : [];
     },
     remainingTasks() {
       return this.tasks.filter((task) => !task.done).length;
@@ -78,6 +83,9 @@ export default {
         this.newTask = "";
       }
     },
+    testApiConnection() {
+      this.$store.dispatch('testApi');
+    },
     updateTasksOrder(event) {
       const orderedTasks = [...this.localTasks];
       const movedTask = orderedTasks.splice(event.oldIndex, 1)[0];
@@ -86,8 +94,8 @@ export default {
         "UPDATE_TASK_ORDER",
         orderedTasks.map((task) => ({
           id: task.id,
-          title: task.title,
-          complete: task.complete,
+          content: task.content,
+          done: task.done,
         }))
       );
     },
