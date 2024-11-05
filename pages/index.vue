@@ -7,7 +7,7 @@
       <input 
         type="text"
         v-model="newTask"
-        placeholder="Add new tasksd"
+        placeholder="Add new tasks"
         @keypress.enter="addTask" />
       <button @click="addTask"> Add </button>
     </div>
