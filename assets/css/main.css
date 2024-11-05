@@ -166,4 +166,43 @@ main .tasks .task button.delete {
         width: 100%; /* Make buttons full width */
         justify-content: space-between; /* Space between buttons */
     }
+
+
+    .task-board {
+  font-family: Arial, sans-serif;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.create-new {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.create-new input {
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.create-new button {
+  padding: 10px;
+}
+
+/* Flex container for two-column layout */
+.content-container {
+  display: flex;
+  gap: 20px;
+}
+
+/* Chart container for left side */
+.chart-container {
+  flex: 1;
+  max-width: 300px;
+}
+
+/* Tasks container for right side */
+.tasks-container {
+  flex: 2;
+}
 }
