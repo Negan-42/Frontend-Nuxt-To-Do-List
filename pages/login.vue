@@ -12,6 +12,12 @@
       <button type="submit">Login</button>
     </form>
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+
+    <!-- Add link to registration page -->
+    <p class="register-link">
+      Don’t have an account?
+      <router-link to="/register">Register here</router-link>
+    </p>
   </div>
 </template>
 
@@ -35,9 +41,8 @@ export default {
         });
 
         if (response.data.access) {
-          // Store the token (either in localStorage or Vuex)
-          this.$store.commit("auth/setToken", response.data.access); // or localStorage.setItem("token", response.data.access);
-          this.$router.push("/tasks"); // Redirect to the tasks page or another page after login
+          this.$store.commit("auth/setToken", response.data.access);
+          this.$router.push("/tasks");
         }
       } catch (error) {
         this.errorMessage = "Invalid username or password";
@@ -72,7 +77,6 @@ export default {
 form {
   width: 100%;
   display: flex;
-
   flex-direction: column;
   gap: 1rem;
 }
@@ -118,17 +122,19 @@ button:active {
   margin-top: 0.5rem;
 }
 
-@media (max-width: 600px) {
-  .login-container {
-    padding: 1.5rem;
-  }
+/* Style for register link */
+.register-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #333;
+}
 
-  h1 {
-    font-size: 1.6rem;
-  }
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+}
 
-  button {
-    font-size: 0.9rem;
-  }
+.register-link a:hover {
+  text-decoration: underline;
 }
 </style>

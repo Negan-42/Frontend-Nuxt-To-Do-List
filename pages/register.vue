@@ -1,3 +1,4 @@
+<!-- register.vue -->
 <template>
   <div>
     <form @submit.prevent="handleRegister">

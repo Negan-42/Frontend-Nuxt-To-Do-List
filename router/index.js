@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import store from '@/store'; // Import your Vuex store
 import Login from '@/components/Login.vue';
 import TaskBoard from '@/components/TaskBoard.vue';
+import Register from '@/components/Register.vue'; // Import the Register component
 
 Vue.use(Router);
 
@@ -15,8 +16,13 @@ const router = new Router({
         },
         {
             path: '/login',
-            name: 'loginPage', // Consider renaming for clarity
+            name: 'loginPage', // Renamed for clarity
             component: Login,
+        },
+        {
+            path: '/register', // New route for the registration page
+            name: 'register',
+            component: Register,
         },
         {
             path: '/tasks',
@@ -30,8 +36,9 @@ const router = new Router({
                 }
             },
         },
-        // Other routes...
+        // Other routes can go here...
     ],
+    // mode: 'history', // Optional, to remove the hash from URLs
 });
 
 export default router;

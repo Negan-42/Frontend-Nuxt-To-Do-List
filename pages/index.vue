@@ -1,3 +1,4 @@
+<!-- index.vue -->
 <template>
   <div class="task-board">
     <button @click="testApiConnection">Test API Connection</button>
