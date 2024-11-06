@@ -1,23 +1,26 @@
+<!-- login.vue -->
 <template>
-  <div class="login-container">
-    <h1>Login</h1>
-    <form @submit.prevent="login">
-      <input v-model="username" placeholder="Username" required />
-      <input
-        v-model="password"
-        type="password"
-        placeholder="Password"
-        required
-      />
-      <button type="submit">Login</button>
-    </form>
-    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+  <div class="login-page">
+    <div class="login-container">
+      <h1>Login</h1>
+      <form @submit.prevent="login">
+        <input v-model="username" placeholder="Username" required />
+        <input
+          v-model="password"
+          type="password"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
 
-    <!-- Add link to registration page -->
-    <p class="register-link">
-      Don’t have an account?
-      <router-link to="/register">Register here</router-link>
-    </p>
+      <!-- Add link to registration page -->
+      <p class="register-link">
+        Don’t have an account?
+        <router-link to="/register">Register here</router-link>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -54,17 +57,26 @@ export default {
 
 <style scoped>
 .login-container {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   max-width: 400px;
-  margin-top: 100px;
-  margin-left: 200px;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   transition: all 0.3s ease;
+}
+
+/* New parent container to center the form */
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #1a1b26; /* Background color for the page */
 }
 
 .login-container h1 {

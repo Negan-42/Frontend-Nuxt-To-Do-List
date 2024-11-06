@@ -1,29 +1,19 @@
-<!-- register.vue -->
 <template>
-  <div>
-    <form @submit.prevent="handleRegister">
-      <div>
-        <br>
-        <h1> Register Page </h1> <br> <br> 
-        <label for="username">Username:</label>
-        <input type="text" id="username" v-model="username" required />
-      </div>
-      <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" required />
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" required />
-      </div>
-      <button type="submit">Register</button>
-    </form>
+  <div class="register-page">
+    <div class="register-container">
+      <h1>Register</h1>
+      <form @submit.prevent="handleRegister">
+        <input type="text" id="username" v-model="username" placeholder="Username" required />
+        <input type="email" id="email" v-model="email" placeholder="Email" required />
+        <input type="password" id="password" v-model="password" placeholder="Password" required />
+        <button type="submit">Register</button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-
-import { ref } from 'vue'; // Import ref from Vue
+import { ref } from 'vue';
 
 export default {
   setup() {
@@ -32,15 +22,12 @@ export default {
     const password = ref('');
 
     const handleRegister = () => {
-      // Here you can add the logic for handling the registration,
-      // such as calling an API to register the user.
       console.log('Registration Details:', {
         username: username.value,
         email: email.value,
         password: password.value,
       });
-      // You can redirect the user after successful registration, for example:
-      // this.$router.push('/login');
+      // Redirect after registration if needed, e.g., this.$router.push('/login');
     };
 
     return {
@@ -53,36 +40,74 @@ export default {
 };
 </script>
 
-<style>
-/* Add your styles here */
-form {
+<style scoped>
+.register-page {
   display: flex;
-  flex-direction: column;
-  max-width: 300px;
-  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #1a1b26; /* Background color similar to login */
 }
 
-label {
-  margin-bottom: 5px;
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.register-container h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 input {
-  margin-bottom: 15px;
-  padding: 8px;
+  width: 100%;
+  padding: 0.8rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border 0.3s ease;
+}
+
+input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
 button {
-  padding: 10px;
+  padding: 0.8rem;
   background-color: #007bff;
-  color: white;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 button:hover {
   background-color: #0056b3;
+}
+
+button:active {
+  transform: scale(0.98);
 }
 </style>
