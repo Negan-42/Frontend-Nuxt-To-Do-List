@@ -1,7 +1,6 @@
-<!-- index.vue -->
+<!-- pages/index.vue -->
 <template>
   <div class="task-board">
-    <button @click="testApiConnection">Test API Connection</button>
     <h1>Task Board</h1>
     <p>Create Tasks</p>
 
@@ -24,7 +23,6 @@
           :remainingTasks="remainingTasks"
         />
       </div>
-
       <!-- Right column for tasks -->
       <div class="tasks-container">
         <draggable
@@ -44,12 +42,13 @@
 
 <script>
 import draggable from "vuedraggable";
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 import TaskChart from "@/components/Task_Chart.vue";
+import { mapState } from "vuex";
 import Task from "@/components/Task.vue";
 
 export default {
-  middleware: 'auth',
+  middleware: "auth",
   components: {
     draggable,
     TaskChart,
@@ -66,10 +65,12 @@ export default {
       return this.tasks;
     },
     completedTasks() {
-      return this.tasks ? this.tasks.filter(task => task.completed) : [];
+      return this.tasks
+        ? this.tasks.filter((task) => task.completed).length
+        : 0;
     },
     remainingTasks() {
-      return this.tasks.filter((task) => !task.done).length;
+      return this.tasks ? this.tasks.filter((task) => !task.done).length : 0;
     },
   },
   methods: {
@@ -85,7 +86,7 @@ export default {
       }
     },
     testApiConnection() {
-      this.$store.dispatch('testApi');
+      this.$store.dispatch("testApi");
     },
     updateTasksOrder(event) {
       const orderedTasks = [...this.localTasks];

@@ -1,9 +1,8 @@
-<!-- login.vue -->
 <template>
   <div class="login-page">
     <div class="login-container">
       <h1>Login</h1>
-      <form @submit.prevent="login">
+      <form @submit.prevent="handleLogin">
         <input v-model="username" placeholder="Username" required />
         <input
           v-model="password"
@@ -25,7 +24,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -35,20 +34,14 @@ export default {
     };
   },
   methods: {
-    async login() {
-      this.errorMessage = "";
-      try {
-        const response = await this.$api.post("/token/", {
-          username: this.username,
-          password: this.password,
-        });
+    ...mapActions("auth", ["login"]), // Map the login action from the auth module
 
-        if (response.data.access) {
-          this.$store.commit("auth/setToken", response.data.access);
-          this.$router.push("/tasks");
-        }
+    async handleLogin() {
+      try {
+        await this.login({ username: this.username, password: this.password });
+        this.$router.push("/"); // Redirect after successful login
       } catch (error) {
-        this.errorMessage = "Invalid username or password";
+        this.errorMessage = "Invalid login credentials";
       }
     },
   },

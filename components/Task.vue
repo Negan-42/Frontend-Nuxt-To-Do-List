@@ -1,3 +1,4 @@
+<!-- components/Task.vue -->
 <template>
   <div :class="`task ${task.done ? 'is-complete' : ''} draggable`">
     <!-- Drag Handle -->

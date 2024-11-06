@@ -1,3 +1,4 @@
+<!-- components/Task_Chart.vue for bar graph  -->
 <template>
   <div>
     <h2>Task Statistics</h2>

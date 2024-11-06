@@ -1,3 +1,4 @@
+<!-- pages/register.vue -->
 <template>
   <div class="register-page">
     <div class="register-container">
@@ -22,11 +23,7 @@ export default {
     const password = ref('');
 
     const handleRegister = () => {
-      console.log('Registration Details:', {
-        username: username.value,
-        email: email.value,
-        password: password.value,
-      });
+   
       // Redirect after registration if needed, e.g., this.$router.push('/login');
     };
 
