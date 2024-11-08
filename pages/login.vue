@@ -87,12 +87,12 @@ form {
 }
 
 input {
-  width: 100%;
-  padding: 0.8rem;
+  width: 95%;
+  padding: 0.6rem; 
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
-  transition: border 0.3s ease;
+  transition: border 0.1s ease;
 }
 
 input:focus {
@@ -141,5 +141,14 @@ button:active {
 
 .register-link a:hover {
   text-decoration: underline;
+}
+@media (max-width: 600px) {
+  .login-container {
+    padding: 1rem;
+  }
+
+  .login-container h1 {
+    font-size: 1.5rem;
+  }
 }
 </style>

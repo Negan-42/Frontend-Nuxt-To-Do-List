@@ -1,3 +1,4 @@
+// store/index.js
 export const state = () => ({
   tasks: [],
 });
@@ -19,19 +20,23 @@ export const mutations = {
     }
   },
   TOGGLE_TASK(state, updatedTask) {
+    console.log('Updated Task:', updatedTask);
     const index = state.tasks.findIndex((task) => task.id === updatedTask.id);
     if (index !== -1) {
       this._vm.$set(state.tasks, index, updatedTask);
     }
   },
+
+  
+  
   UPDATE_TASK(state, { taskId, newTitle }) {
     const task = state.tasks.find(t => t.id === taskId);
     if (task) {
       task.title = newTitle;
     }
   },
-  UPDATE_TASK_ORDER(state, newTasks) {
-    state.tasks = newTasks;
+   UPDATE_TASK_ORDER(state, newTasks) {
+    state.tasks = [...newTasks]; // Replace state.tasks with the new ordered list
   },
   CLEAR_TASKS(state) {
     state.tasks = [];
@@ -80,13 +85,15 @@ export const actions = {
       const currentTask = this.state.tasks.find((t) => t.id === taskId);
       if (!currentTask) throw new Error('Task not found');
       
-      const updatedTask = { ...currentTask, complete: !currentTask.complete };
+      // Ensure the correct property is toggled
+      const updatedTask = { complete: !currentTask.complete };
       const response = await this.$api.put(`tasks/update/${taskId}/`, updatedTask);
       commit('TOGGLE_TASK', response.data);
     } catch (error) {
       console.error('Error toggling task:', error);
     }
   },
+  
   
   async updateTask({ commit }, { taskId, newTitle }) {
     try {
@@ -112,6 +119,7 @@ export const actions = {
   
   async updateTaskOrder({ commit }, newTasks) {
     try {
+      // Make sure the request matches your backend API format
       await this.$api.put('tasks/update-order/', { tasks: newTasks });
       commit('UPDATE_TASK_ORDER', newTasks);
     } catch (error) {
