@@ -1,78 +1,90 @@
-<!-- components/Task.vue -->
 <template>
-  <div :class="`task ${task.done ? 'is-complete' : ''} draggable`">
-    <!-- Drag Handle -->
-    <div class="drag-handle" @pointerdown.prevent>
-      <span>≡</span>
-      <!-- Represent the drag handle with three lines -->
-    </div>
-
-    <!-- Task Content -->
-    <div class="content" v-if="!isEditing">{{ task.content }}</div>
-    <input
-      v-if="isEditing"
-      type="text"
-      v-model="editContent"
-      @keyup.enter="submitUpdate"
-      @blur="submitUpdate"
-      placeholder="Update task"
-      class="edit-input"
-    />
-
-    <!-- Task Actions -->
-    <div class="buttons">
-      <input
-        type="checkbox"
-        :checked="task.done"
-        @change="toggleDone"
-        class="task-checkbox"
-      />
-      <button @click="removeTask" class="delete">Delete</button>
-      <button @click="startEdit" class="update">Update</button>
-    </div>
+    <div class="content-container">
+    <draggable
+      v-model="tasks"
+      @end="updateTasksOrder"
+      :animation="200"
+      handle=".drag-handle"
+      :force-fallback="true"
+    >
+      <div v-for="task in tasks" :key="task.id" :class="`task ${task.done ? 'is-complete' : ''} draggable`">
+        <div class="drag-handle" @pointerdown.prevent>
+          <span>≡</span>
+        </div>
+        <div class="content" v-if="!isEditing || editingTaskId !== task.id">{{ task.content }}</div>
+        <input
+          v-if="isEditing && editingTaskId === task.id"
+          type="text"
+          v-model="editContent"
+          @keyup.enter="submitUpdate(task.id)"
+          @blur="submitUpdate(task.id)"
+          placeholder="Update task"
+          class="edit-input"
+        />
+        <div class="buttons">
+          <input
+            type="checkbox"
+            :checked="task.done"
+            @change="toggleDone(task.id)"
+            class="task-checkbox"
+          />
+          <button @click="removeTask(task.id)" class="delete">Delete</button>
+          <button @click="startEdit(task.id, task.content)" class="update">Update</button>
+        </div>
+      </div>
+    </draggable>
   </div>
 </template>
 
 <script>
+import draggable from "vuedraggable";
+
 export default {
-  props: ["task"],
+  components: {
+    draggable,
+  },
+  props: {
+    task: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       isEditing: false,
-      editContent: this.task.content,
+      editingTaskId: null,
+      editContent: "",
     };
   },
   methods: {
-    // Dispatch action to toggle task completion
-    toggleDone() {
-      this.$store.dispatch("toggleTask", this.task.id);
+    removeTask(taskId) {
+      this.$store.dispatch("removeTask", taskId);
     },
-
-    // Dispatch action to remove task
-    removeTask() {
-      this.$store.dispatch("removeTask", this.task.id);
+    toggleDone(taskId) {
+      this.$store.dispatch("toggleTask", taskId);
     },
-
-    // Start editing the task
-    startEdit() {
+    startEdit(taskId, content) {
       this.isEditing = true;
-      this.editContent = this.task.content;
+      this.editingTaskId = taskId;
+      this.editContent = content;
     },
-
-    // Dispatch action to update task content
-    submitUpdate() {
-      if (this.editContent.trim() && this.editContent !== this.task.content) {
-        this.$store.dispatch("updateTask", {
-          taskId: this.task.id,
-          newContent: this.editContent.trim(),
-        });
+    submitUpdate(taskId) {
+      if (this.editContent.trim()) {
+        this.$store.dispatch("updateTask", { taskId, newContent: this.editContent.trim() });
       }
-      this.isEditing = false; // End editing mode
+      this.isEditing = false;
+      this.editingTaskId = null;
+      this.editContent = "";
+    },
+    updateTasksOrder(event) {
+      const orderedTasks = [...this.tasks];
+      const movedTask = orderedTasks.splice(event.oldIndex, 1)[0];
+      orderedTasks.splice(event.newIndex, 0, movedTask);
+      this.$store.dispatch("updateTaskOrder", orderedTasks);
     },
   },
 };
 </script>
-
 <style scoped>
 /* Your existing styles */
 .task {

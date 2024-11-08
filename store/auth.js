@@ -26,11 +26,18 @@ export const mutations = {
   },
 };
 
-export const actions = {
-  // Login Action
-  async login({ commit }, credentials) {
-    // Log credentials to ensure they're correctly received here
 
+export const actions = {
+  // Add this helper method
+  setAuthHeader({ state }) {
+    if (state.token) {
+      this.$api.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
+    } else {
+      delete this.$api.defaults.headers.common['Authorization'];
+    }
+  },
+
+  async login({ commit, dispatch }, credentials) {
     try {
       const response = await this.$api.post('/token/', {
         username: credentials.username,
@@ -42,61 +49,43 @@ export const actions = {
       // Store tokens in local storage
       localStorage.setItem('accessToken', response.data.access);
       localStorage.setItem('refreshToken', response.data.refresh);
+
+      // Set the authorization header
+      dispatch('setAuthHeader');
     } catch (error) {
       console.error('Login Error:', error);
       throw new Error('Invalid login credentials');
     }
   },
-  // Fetch user data
-  async getUserData({ commit, state }) {
-    try {
-      if (state.token) {
-        const response = await this.$axios.get("/user/", {
-          headers: { Authorization: `Bearer ${state.token}` },
-        });
-        commit("SET_USER", response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
+
+  autoLogin({ commit, dispatch }) {
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
+    if (accessToken && refreshToken) {
+      commit('SET_TOKEN', accessToken);
+      commit('SET_REFRESH_TOKEN', refreshToken);
+
+      // Set the authorization header
+      dispatch('setAuthHeader');
     }
   },
 
-  // Refresh Token Action
-  async refreshToken({ commit, state }) {
+  async refreshToken({ commit, state, dispatch }) {
     try {
-      const response = await this.$axios.post("/token/refresh/", {
+      const response = await this.$axios.post('/token/refresh/', {
         refresh: state.refreshToken,
       });
-      commit("SET_TOKEN", response.data.access);
+      commit('SET_TOKEN', response.data.access);
 
       // Update access token in local storage
-      localStorage.setItem("accessToken", response.data.access);
+      localStorage.setItem('accessToken', response.data.access);
+
+      // Set the authorization header
+      dispatch('setAuthHeader');
     } catch (error) {
-      console.error("Refresh Token Error:", error);
-      commit("CLEAR_AUTH");
+      console.error('Refresh Token Error:', error);
+      commit('CLEAR_AUTH');
       throw error;
     }
-  },
-
-  // Auto-login Action (useful on page reload)
-  autoLogin({ commit }) {
-    const accessToken = localStorage.getItem("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
-    if (accessToken && refreshToken) {
-      commit("SET_TOKEN", accessToken);
-      commit("SET_REFRESH_TOKEN", refreshToken);
-    }
-  },
-
-  // Logout Action
-  logout({ commit }) {
-    commit("CLEAR_AUTH");
-
-    // Remove tokens from local storage
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-
-    // Optionally, redirect to login page
-    // this.$router.push('/login');
   },
 };

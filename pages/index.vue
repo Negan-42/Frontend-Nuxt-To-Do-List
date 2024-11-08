@@ -1,193 +1,190 @@
-<!-- pages/index.vue -->
 <template>
-  <div class="task-board">
-    <h1>Task Board</h1>
-    <p>Create Tasks</p>
-
-    <div class="create-new">
-      <input
-        type="text"
-        v-model="newTask"
-        placeholder="Add new tasks"
-        @keypress.enter="addTask"
-      />
-      <button @click="addTask">Add</button>
-    </div>
-
-    <!-- Flex container for layout -->
-    <div class="content-container">
-      <!-- Left column for bar chart -->
-      <div class="chart-container">
-        <TaskChart
-          :completedTasks="completedTasks"
-          :remainingTasks="remainingTasks"
-        />
-      </div>
-      <!-- Right column for tasks -->
-      <div class="tasks-container">
-        <draggable
-          v-model="localTasks"
-          @end="updateTasksOrder"
-          :move="checkMove"
-          :animation="200"
-          handle=".drag-handle"
-          :force-fallback="true"
-        >
-          <Task v-for="task in localTasks" :key="task.id" :task="task" />
-        </draggable>
-      </div>
+  <div class="task-page">
+    <div class="task-container">
+      <h1>Task List</h1>
+      <form @submit.prevent="addNewTask">
+        <input v-model="newTaskContent" placeholder="Add a new task" required />
+        <button type="submit">Add Task</button>
+      </form>
+      <ul class="task-list">
+        <li v-for="task in tasks" :key="task.id" class="task-item">
+          <input type="checkbox" v-model="task.done" @change="toggleTask(task.id)" />
+          <span :class="{ completed: task.done }">{{ task.title }}</span>
+          <div class="task-actions">
+            <button @click="editTask(task)" class="edit-btn">Edit</button>
+            <button @click="removeTask(task.id)" class="delete-btn">Delete</button>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-import draggable from "vuedraggable";
-// import { mapState } from "vuex";
-import TaskChart from "@/components/Task_Chart.vue";
-import { mapState } from "vuex";
-import Task from "@/components/Task.vue";
-
 export default {
-  middleware: "auth",
-  components: {
-    draggable,
-    TaskChart,
-    Task,
-  },
   data() {
     return {
-      newTask: "",
+      newTaskContent: '',
     };
   },
   computed: {
-    ...mapState(["tasks"]),
-    localTasks() {
-      return this.tasks;
-    },
-    completedTasks() {
-      return this.tasks
-        ? this.tasks.filter((task) => task.completed).length
-        : 0;
-    },
-    remainingTasks() {
-      return this.tasks ? this.tasks.filter((task) => !task.done).length : 0;
+    tasks() {
+      return this.$store.state.tasks;
     },
   },
-  methods: {
-    addTask() {
-      if (this.newTask) {
-        const taskId = Date.now();
-        this.$store.commit("ADD_TASK", {
-          id: taskId,
-          content: this.newTask,
-          done: false,
-        });
-        this.newTask = "";
+  methods:{
+    async addNewTask() {
+      if (this.newTaskContent.trim()) {
+        await this.$store.dispatch('addTask', { title: this.newTaskContent });
+        this.newTaskContent = '';  // Clear the input field after adding the task
       }
     },
-    testApiConnection() {
-      this.$store.dispatch("testApi");
+    async toggleTask(taskId) {
+      await this.$store.dispatch('toggleTask', taskId);
     },
-    updateTasksOrder(event) {
-      const orderedTasks = [...this.localTasks];
-      const movedTask = orderedTasks.splice(event.oldIndex, 1)[0];
-      orderedTasks.splice(event.newIndex, 0, movedTask);
-      this.$store.commit(
-        "UPDATE_TASK_ORDER",
-        orderedTasks.map((task) => ({
-          id: task.id,
-          content: task.content,
-          done: task.done,
-        }))
-      );
+    async removeTask(taskId) {
+      await this.$store.dispatch('removeTask', taskId);
     },
-    checkMove(evt) {
-      return true;
-    },
+    async editTask(task) {
+  // Prompt for new task title instead of content
+  const newTitle = prompt('Edit task title:', task.title);
+  if (newTitle !== null && newTitle.trim() !== '') {
+    // Dispatch update with new title
+    await this.$store.dispatch('updateTask', { taskId: task.id, newTitle });
+   }
+   }
+  },
+  async mounted() {
+    await this.$store.dispatch('loadTasks');
   },
 };
 </script>
 
 <style scoped>
-.task-board {
-  font-family: "Roboto", sans-serif;
-  max-width: 1000px;
-  margin: 0 auto;
-  background-color: #f8f9fa; /* Light background */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+.task-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #1a1b26;
+}
+
+.task-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #2a2b38;
 }
 
 h1 {
-  font-size: 1.8em;
-  font-weight: 600;
-  color: #343a40;
-  margin-bottom: 5px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 1rem;
 }
 
-p {
-  color: #6c757d;
-  margin-bottom: 20px;
-}
-
-.create-new {
+form {
+  width: 100%;
   display: flex;
-  margin-bottom: 20px;
-  gap: 10px;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
-.create-new input {
-  flex: 1;
-  padding: 12px;
-  font-size: 1em;
-  border: 1px solid #ced4da;
-  border-radius: 6px;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s;
+input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #333;
+  color: #fff;
+  transition: border 0.3s ease;
 }
 
-.create-new input:focus {
-  border-color: #5c7cfa; /* Primary blue */
+input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
-.create-new button {
-  padding: 12px 20px;
-  background-color: #5c7cfa; /* Primary button color */
-  color: white;
+button {
+  padding: 0.8rem;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-.create-new button:hover {
-  background-color: #4b6cd6; /* Darker blue on hover */
+button:hover {
+  background-color: #0056b3;
 }
 
-/* Flex container for two-column layout */
-.content-container {
+button:active {
+  transform: scale(0.98);
+}
+
+.task-list {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #3a3b4f;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: background-color 0.3s ease;
 }
 
-/* Chart container for left side */
-.chart-container {
-  flex: 1;
-  max-width: 320px;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.task-item input[type="checkbox"] {
+  margin-right: 1rem;
 }
 
-/* Tasks container for right side */
-.tasks-container {
-  flex: 2;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.task-item span {
+  flex-grow: 1;
+  color: #fff;
+}
+
+.task-item .completed {
+  text-decoration: line-through;
+  color: #9a9a9a;
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.edit-btn, .delete-btn {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background-color: #0066cc;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000;
 }
 </style>

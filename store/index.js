@@ -1,5 +1,3 @@
-// store/index.js
-
 export const state = () => ({
   tasks: [],
 });
@@ -14,89 +12,114 @@ export const mutations = {
   REMOVE_TASK(state, taskId) {
     state.tasks = state.tasks.filter((task) => task.id !== taskId);
   },
-  TOGGLE_TASK(state, taskId) {
+  COMPLETE_TASK(state, taskId) {
     const task = state.tasks.find((t) => t.id === taskId);
     if (task) {
-      task.done = !task.done;
+      task.complete = true;
     }
   },
-  UPDATE_TASK(state, updatedTask) {
-    const index = state.tasks.findIndex((t) => t.id === updatedTask.id);
+  TOGGLE_TASK(state, updatedTask) {
+    const index = state.tasks.findIndex((task) => task.id === updatedTask.id);
     if (index !== -1) {
-      this.$set(state.tasks, index, updatedTask);
+      this._vm.$set(state.tasks, index, updatedTask);
+    }
+  },
+  UPDATE_TASK(state, { taskId, newTitle }) {
+    const task = state.tasks.find(t => t.id === taskId);
+    if (task) {
+      task.title = newTitle;
     }
   },
   UPDATE_TASK_ORDER(state, newTasks) {
     state.tasks = newTasks;
   },
+  CLEAR_TASKS(state) {
+    state.tasks = [];
+  },
 };
 
 export const actions = {
-  // Load all tasks from the backend
   async loadTasks({ commit }) {
     try {
-      const response = await this.$api.get("tasks/get/");
-      commit("SET_TASKS", response.data);
+      const response = await this.$api.get('tasks/get/');
+      commit('SET_TASKS', response.data);
     } catch (error) {
-      console.error("Error loading tasks:", error);
+      console.error('Error loading tasks:', error);
     }
   },
-
-  // Add a new task
+  
+  async loadCompletedTasks({ commit }) {
+    try {
+      const response = await this.$api.get('tasks/get?complete=true');
+      commit('SET_TASKS', response.data);
+    } catch (error) {
+      console.error('Error loading completed tasks:', error);
+    }
+  },
+  
   async addTask({ commit }, taskData) {
     try {
-      const response = await this.$api.post("tasks/save/", taskData);
-      commit("ADD_TASK", response.data);
+      const response = await this.$api.post('tasks/save/', taskData);
+      commit('ADD_TASK', response.data);
     } catch (error) {
-      console.error("Error adding task:", error);
+      console.error('Error adding task:', error);
     }
   },
-
-  // Remove a task by ID
+  
   async removeTask({ commit }, taskId) {
     try {
       await this.$api.delete(`tasks/delete/${taskId}/`);
-      commit("REMOVE_TASK", taskId);
+      commit('REMOVE_TASK', taskId);
     } catch (error) {
-      console.error("Error removing task:", error);
+      console.error('Error removing task:', error);
     }
   },
-
-  // Toggle task completion status
+  
   async toggleTask({ commit }, taskId) {
     try {
       const currentTask = this.state.tasks.find((t) => t.id === taskId);
-      if (!currentTask) throw new Error("Task not found");
-
-      const updatedTask = { ...currentTask, done: !currentTask.done };
-      await this.$api.put(`tasks/update/${taskId}/`, updatedTask);
-      commit("TOGGLE_TASK", taskId);
+      if (!currentTask) throw new Error('Task not found');
+      
+      const updatedTask = { ...currentTask, complete: !currentTask.complete };
+      const response = await this.$api.put(`tasks/update/${taskId}/`, updatedTask);
+      commit('TOGGLE_TASK', response.data);
     } catch (error) {
-      console.error("Error toggling task:", error);
+      console.error('Error toggling task:', error);
     }
   },
-
-  // Update task content
-  async updateTask({ commit }, { taskId, newContent }) {
+  
+  async updateTask({ commit }, { taskId, newTitle }) {
     try {
-      const updatedTask = { content: newContent };
-      const response = await this.$api.put(
-        `tasks/update/${taskId}/`,
-        updatedTask
-      );
-      commit("UPDATE_TASK", response.data);
+      const response = await this.$api.put(`tasks/update/${taskId}/`, { title: newTitle });
+      if (response.data) {
+        commit('UPDATE_TASK', { taskId, newTitle });
+      }
     } catch (error) {
-      console.error("Error updating task:", error);
+      console.error('Error updating task:', error);
     }
   },
-
-  // Update the order of tasks (if supported by backend)
+  
+  async completeTask({ commit }, taskId) {
+    try {
+      const response = await this.$api.put(`tasks/complete/${taskId}/`);
+      if (response.data && response.data.complete !== undefined) {
+        commit('COMPLETE_TASK', taskId);
+      }
+    } catch (error) {
+      console.error('Error completing task:', error);
+    }
+  },
+  
   async updateTaskOrder({ commit }, newTasks) {
     try {
-      await this.$api.put("tasks/update-order/", { tasks: newTasks });
-      commit("UPDATE_TASK_ORDER", newTasks);
+      await this.$api.put('tasks/update-order/', { tasks: newTasks });
+      commit('UPDATE_TASK_ORDER', newTasks);
     } catch (error) {
-      console.error("Error updating task order:", error);
+      console.error('Error updating task order:', error);
     }
+  },
+  
+  async clearTasks({ commit }) {
+    commit('CLEAR_TASKS');
   },
 };
