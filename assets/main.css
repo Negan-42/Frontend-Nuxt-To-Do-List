@@ -1,22 +1,20 @@
-/* External CSS File for Modern and Improved UI Colors */
-
-/* General Page Styling */
+/* ================= General Styling ================= */
 body {
   background-color: #1e1f29; /* Dark background for modern look */
   color: #ffffff; /* White text for readability */
   font-family: 'Roboto', sans-serif;
 }
 
-/* Task Page Container */
+/* ================= Page Layout ================= */
 .task-page {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 2rem;
   min-height: 100vh;
+  background-color: #1a1b26;
 }
 
-/* Centered Content */
 .centered-content {
   display: flex;
   justify-content: space-between;
@@ -25,7 +23,7 @@ body {
   max-width: 1200px;
 }
 
-/* Task Container */
+/* ================= Containers ================= */
 .task-container {
   width: 60%;
   background-color: #2a2d3e; /* Modern deep blue-gray */
@@ -34,23 +32,29 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Add Task Button Container */
 .add-task-button-container {
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;
 }
 
-/* Headers */
-h1 {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 1.5rem;
-  text-align: center;
+.logout-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
-/* Task List */
+.logout-container a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.logout-container a:hover {
+  text-decoration: underline;
+}
+
+/* ================= Task Items ================= */
 .task-list {
   list-style: none;
   padding: 0;
@@ -71,11 +75,11 @@ h1 {
   background-color: #454861; /* Highlight on hover */
 }
 
-/* Task Item Row */
 .task-item-row {
   display: flex;
   align-items: center;
   width: 100%;
+  justify-content: space-between; /* Ensures elements are evenly spaced */
 }
 
 .drag-handle {
@@ -87,7 +91,7 @@ h1 {
 .task-title {
   flex-grow: 1;
   color: #ffffff;
-  margin-left: 1rem;
+  margin-left: 1rem; /* Adds space between the checkbox and task title */
 }
 
 .completed {
@@ -95,13 +99,7 @@ h1 {
   color: #a5a5a5; /* Light gray for completed tasks */
 }
 
-/* Task Actions */
-.task-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-/* Buttons */
+/* ================= Buttons ================= */
 button {
   padding: 0.5rem 1rem;
   background-color: #007bff; /* Bright blue for primary buttons */
@@ -138,9 +136,9 @@ button:hover {
   background-color: #c82333; /* Darker red for hover */
 }
 
-/* Inputs */
+/* ================= Inputs ================= */
 input[type="checkbox"] {
-  margin-right: 1rem;
+  margin-right: 1rem; /* Adjusts spacing between the checkbox and task title */
 }
 
 input {
@@ -157,7 +155,7 @@ input:focus {
   border-color: #007bff; /* Blue border on focus */
 }
 
-/* Modal Styling */
+/* ================= Modal Styling ================= */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -207,4 +205,30 @@ input:focus {
 
 .modal-button.cancel:hover {
   background-color: #333;
+}
+
+/* ================= Media Queries ================= */
+@media (max-width: 768px) {
+  .centered-content {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .task-container {
+    width: 100%;
+  }
+
+  .task-item-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-title {
+    margin: 0.5rem 0;
+  }
+
+  .task-actions {
+    justify-content: space-between;
+    width: 100%;
+  }
 }

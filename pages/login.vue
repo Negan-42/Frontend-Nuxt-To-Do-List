@@ -49,6 +49,12 @@ export default {
 </script>
 
 <style scoped>
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+}
 .login-container {
   display: flex;
   flex-direction: column;
@@ -59,7 +65,6 @@ export default {
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
   transition: all 0.3s ease;
 }
 
@@ -69,7 +74,11 @@ export default {
   align-items: center;
   justify-content: center;
   height: 100vh; /* Full viewport height */
-  background-color: #1a1b26; /* Background color for the page */
+}
+
+html{
+  background-color: #1a1b26;
+
 }
 
 .login-container h1 {

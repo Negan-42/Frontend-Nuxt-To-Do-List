@@ -9,6 +9,14 @@
         <input type="password" id="password" v-model="password" placeholder="Password" required />
         <button type="submit">Register</button>
       </form>
+      <p v-if="successMessage" class="success">{{ successMessage }}</p>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+
+      <p class="login-link">
+        Already have an account?
+        <router-link to="/login">Login here</router-link>
+      </p>
+      
     </div>
   </div>
 </template>
@@ -17,14 +25,37 @@
 import { ref } from 'vue';
 
 export default {
-  setup() {
+  setup () {
     const username = ref('');
     const email = ref('');
     const password = ref('');
+    const successMessage = ref('');
+    const errorMessage = ref('');
 
-    const handleRegister = () => {
-   
-      // Redirect after registration if needed, e.g., this.$router.push('/login');
+    const handleRegister = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/tasks/register/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username.value,
+            email: email.value,
+            password: password.value,
+          }),
+        });
+
+        if (response.ok) {
+          successMessage.value = 'Registration successful! You can now log in.';
+          errorMessage.value = '';
+        } else {
+          const data = await response.json();
+          errorMessage.value = data.error || 'Registration failed. Please try again.';
+        }
+      } catch (error) {
+        errorMessage.value = 'An error occurred. Please try again later.';
+      }
     };
 
     return {
@@ -32,10 +63,13 @@ export default {
       email,
       password,
       handleRegister,
+      successMessage,
+      errorMessage,
     };
   },
 };
 </script>
+
 
 <style scoped>
 .register-page {
@@ -106,5 +140,17 @@ button:hover {
 
 button:active {
   transform: scale(0.98);
+}
+/* S  tyles for success and error messages */
+.success {
+  color: #28a745;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
 }
 </style>
