@@ -176,6 +176,10 @@ export default {
     },
     updateTask() {
       if (this.editTaskContent.trim() && this.taskToEdit) {
+        if (this.editTaskContent === this.taskToEdit.title) {
+          alert('Add changes first');
+          return;
+        }
         this.$store.dispatch("updateTask", {
           taskId: this.taskToEdit.id,
           newTitle: this.editTaskContent,
@@ -209,4 +213,39 @@ export default {
 </script>
 
 <style scoped>
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1e1e2f;
+  color: #fff;
+  width: 100%;
+  height: 50px;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #333;
+}
+.nav-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.nav-right .logout-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.logout-button:hover {
+  background-color: #0056b3;
+}
+.centered-content {
+  margin-top: 70px; /* Adjusted for fixed navbar */
+}
 </style>
