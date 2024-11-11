@@ -1,5 +1,15 @@
 <template>
   <div class="task-page">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <span class="nav-title">Task Manager</span>
+      </div>
+      <div class="nav-right">
+        <button @click="handleLogout" class="logout-button">Logout</button>
+      </div>
+    </nav>
+
     <div class="centered-content">
       <Task_Chart
         :completedTasks="completedTasks"
@@ -73,7 +83,7 @@
             draggable="true"
           >
             <div class="tasklistview">
-              <div class = "left">
+              <div class="left">
                 <span class="drag-handle">&#x2630;</span>
                 <input
                   type="checkbox"
@@ -87,7 +97,7 @@
                 >
               </div>
 
-              <div class = "right">
+              <div class="right">
                 <button
                   @click="openEditModal(task)"
                   class="edit-btn small-button"
@@ -101,19 +111,9 @@
                   Delete
                 </button>
               </div>
-              
             </div>
           </li>
         </ul>
-
-        <!-- Logout link positioned below task list -->
-        <div class="logout-container">
-          <p>
-            <router-link to="/login" @click.native="handleLogout"
-              >Logout</router-link
-            >
-          </p>
-        </div>
       </div>
     </div>
   </div>
@@ -207,3 +207,6 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+</style>
