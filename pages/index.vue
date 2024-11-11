@@ -16,7 +16,7 @@
         :remainingTasks="remainingTasks"
       />
       <div class="task-container">
-        <h1>Task List</h1>
+        <h4>Task List</h4>
         <div class="add-task-button-container">
           <button @click="showAddModal = true" class="small-button">
             Add Task

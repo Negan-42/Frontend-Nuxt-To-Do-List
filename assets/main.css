@@ -1,3 +1,4 @@
+/* ================= General Styling ================= */
 body {
   background-color: #1e1f29;
   /* Dark background for modern look */
@@ -277,5 +278,5 @@ input:focus {
   background-color: #0056b3;
 }
 .centered-content {
-  margin-top: 100px; /* Adjusted for fixed navbar */
+  margin-top: 70px; /* Adjusted for fixed navbar */
 }

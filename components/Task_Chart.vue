@@ -1,7 +1,7 @@
 <!-- components/Task_Chart.vue for bar graph  -->
 <template>
   <div>
-    <h2>Task Statistics</h2>
+    <h4>Task Statistics</h4>
     <Bar :chartData="chartData" :options="chartOptions" />
   </div>
 </template>
