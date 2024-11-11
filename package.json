@@ -12,10 +12,12 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
+    "@quasar/extras": "^1.16.13",
     "axios": "^1.7.7",
     "chart.js": "^3.9.1",
     "core-js": "^3.25.3",
     "nuxt": "^2.15.8",
+    "quasar": "^1.0.0",
     "vue": "^2.7.10",
     "vue-chartjs": "^4.1.0",
     "vue-server-renderer": "^2.7.10",

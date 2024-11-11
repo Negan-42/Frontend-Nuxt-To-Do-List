@@ -19,11 +19,17 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
-  // // // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ["~/assets/main.css"],
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  css: [
+    '~/assets/main.css',
+    'quasar/dist/quasar.min.css' // Update path for Quasar v1
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/axios.js'],
+  plugins: [
+    '~/plugins/axios.js',
+    { src: '~/plugins/quasar.js', mode: 'client' }
+  ],
 
   // Backend Connectivity
   axios: {
@@ -39,9 +45,9 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
 
-
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ['quasar'], // Ensure Quasar is transpiled by Webpack
     extend(config, { isDev, isHMR }) {
       // Ensure babel-loader is applied to JavaScript files in node_modules
       const babelLoader = config.module.rules.find(
@@ -49,7 +55,7 @@ export default {
       );
       if (babelLoader) {
         // Exclude node_modules except for chart.js and vue-chartjs
-        babelLoader.exclude = /node_modules\/(?!chart\.js|vue-chartjs)/;
+        babelLoader.exclude = /node_modules\/(!chart\.js|vue-chartjs)/;
       }
     },
   },
