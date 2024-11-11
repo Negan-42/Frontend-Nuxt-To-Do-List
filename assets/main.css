@@ -1,15 +1,18 @@
 /* ================= General Styling ================= */
 body {
-  background-color: #1e1f29; /* Dark background for modern look */
-  color: #ffffff; /* White text for readability */
+  background-color: #1e1f29;
+  /* Dark background for modern look */
+  color: #ffffff;
+  /* White text for readability */
   font-family: 'Roboto', sans-serif;
+  overflow: hidden;
 }
 
 /* ================= Page Layout ================= */
 .task-page {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 2rem;
   min-height: 100vh;
   background-color: #1a1b26;
@@ -25,11 +28,17 @@ body {
 
 /* ================= Containers ================= */
 .task-container {
-  width: 60%;
-  background-color: #2a2d3e; /* Modern deep blue-gray */
+  width: 50%;
+  max-height: 550px;
+  /* Define a fixed height for the task container */
+  overflow-y: auto;
+  /* Enable vertical scrolling */
+  background-color: #2a2d3e;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+  /*  space between the chart and the task container */
 }
 
 .add-task-button-container {
@@ -56,53 +65,59 @@ body {
 
 /* ================= Task Items ================= */
 .task-list {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
-  margin: 0;
+  max-width: 500px;
+  margin: 20px auto;
+  border-radius: 5px;
+
 }
+
 
 .task-item {
   display: flex;
   align-items: center;
-  margin-bottom: 0.7rem;
-  background-color: #3a3d4f; /* Darker gray for contrast */
-  padding: 0.7rem 1.2rem;
-  border-radius: 8px;
-  transition: background-color 0.3s;
+  border-bottom: 1px solid #eee;
+  cursor: grab;
 }
 
-.task-item:hover {
-  background-color: #454861; /* Highlight on hover */
-}
-
-.task-item-row {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between; /* Ensures elements are evenly spaced */
+.task-item:last-child {
+  border-bottom: none;
 }
 
 .drag-handle {
   cursor: move;
-  margin-right: 1rem;
-  color: #888888; /* Subtle color for drag handle */
+  color: #888888;
+  /* Subtle color for drag handle */
 }
 
-.task-title {
-  flex-grow: 1;
-  color: #ffffff;
-  margin-left: 1rem; /* Adds space between the checkbox and task title */
+.tasklistview {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
 }
 
-.completed {
-  text-decoration: line-through;
-  color: #a5a5a5; /* Light gray for completed tasks */
+.left {
+  gap: 10px;
+  display: flex;
+  width: 100%;
 }
+
+.right {
+  gap: 10px;
+  display: flex;
+}
+
+
 
 /* ================= Buttons ================= */
 button {
   padding: 0.5rem 1rem;
-  background-color: #007bff; /* Bright blue for primary buttons */
+  background-color: #007bff;
+  /* Bright blue for primary buttons */
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -112,7 +127,8 @@ button {
 }
 
 button:hover {
-  background-color: #0056d2; /* Darker blue for hover */
+  background-color: #0056d2;
+  /* Darker blue for hover */
 }
 
 .small-button {
@@ -121,38 +137,37 @@ button:hover {
 }
 
 .edit-btn {
-  background-color: #28a745; /* Green for edit */
+  background-color: #28a745;
+  /* Green for edit */
 }
 
 .edit-btn:hover {
-  background-color: #218838; /* Darker green for hover */
+  background-color: #218838;
+  /* Darker green for hover */
 }
 
 .delete-btn {
-  background-color: #dc3545; /* Red for delete */
+  background-color: #dc3545;
+  /* Red for delete */
 }
 
 .delete-btn:hover {
-  background-color: #c82333; /* Darker red for hover */
-}
-
-/* ================= Inputs ================= */
-input[type="checkbox"] {
-  margin-right: 1rem; /* Adjusts spacing between the checkbox and task title */
+  background-color: #c82333;
+  /* Darker red for hover */
 }
 
 input {
-  width: 100%;
   padding: 0.8rem;
   border: 1px solid #444;
   border-radius: 5px;
-  background-color: #2e313d; /* Dark input background */
+  background-color: #2e313d;
   color: #ffffff;
 }
 
 input:focus {
   outline: none;
-  border-color: #007bff; /* Blue border on focus */
+  border-color: #007bff;
+  /* Blue border on focus */
 }
 
 /* ================= Modal Styling ================= */
@@ -169,7 +184,8 @@ input:focus {
 }
 
 .modal {
-  background-color: #262833; /* Dark modal background */
+  background-color: #262833;
+  /* Dark modal background */
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
@@ -221,10 +237,6 @@ input:focus {
   .task-item-row {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .task-title {
-    margin: 0.5rem 0;
   }
 
   .task-actions {

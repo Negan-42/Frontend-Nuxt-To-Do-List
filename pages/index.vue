@@ -72,17 +72,22 @@
             class="task-item"
             draggable="true"
           >
-            <div class="task-item-row">
-              <span class="drag-handle">&#x2630;</span>
-              <input
-                type="checkbox"
-                :checked="task.complete"
-                @change="toggleTask(task)"
-              />
-              <span :class="{ completed: task.complete }" class="task-title">{{
-                task.title
-              }}</span>
-              <div class="task-actions">
+            <div class="tasklistview">
+              <div class = "left">
+                <span class="drag-handle">&#x2630;</span>
+                <input
+                  type="checkbox"
+                  :checked="task.complete"
+                  @change="toggleTask(task)"
+                />
+                <span
+                  :class="{ completed: task.complete }"
+                  class="task-title"
+                  >{{ task.title }}</span
+                >
+              </div>
+
+              <div class = "right">
                 <button
                   @click="openEditModal(task)"
                   class="edit-btn small-button"
@@ -96,6 +101,7 @@
                   Delete
                 </button>
               </div>
+              
             </div>
           </li>
         </ul>
@@ -103,7 +109,9 @@
         <!-- Logout link positioned below task list -->
         <div class="logout-container">
           <p>
-            <router-link to="/login" @click.native="handleLogout">Logout</router-link>
+            <router-link to="/login" @click.native="handleLogout"
+              >Logout</router-link
+            >
           </p>
         </div>
       </div>
@@ -116,6 +124,7 @@ import Task_Chart from "@/components/Task_Chart.vue";
 import Sortable from "sortablejs";
 
 export default {
+  middleware: "auth",
   components: {
     Task_Chart,
   },

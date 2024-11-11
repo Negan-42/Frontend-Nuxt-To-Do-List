@@ -49,6 +49,3 @@ export default {
 };
 </script>
 
-<style>
-/* Optional styles for the chart container */
-</style>
