@@ -38,7 +38,7 @@ export default {
 
   // Backend Connectivity
   axios: {
-    baseURL: "http://localhost:8000", // replace with your Django backend URL
+    baseURL: "https://to-do-backend-46nr.onrender.com/", // replace with your Django backend URL
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
