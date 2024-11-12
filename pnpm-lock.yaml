@@ -11,6 +11,9 @@ importers:
       '@nuxtjs/axios':
         specifier: ^5.13.6
         version: 5.13.6
+      '@quasar/extras':
+        specifier: ^1.16.13
+        version: 1.16.13
       axios:
         specifier: ^1.7.7
         version: 1.7.7
@@ -24,8 +27,8 @@ importers:
         specifier: ^2.15.8
         version: 2.18.1(consola@3.2.3)(vue@2.7.16)
       quasar:
-        specifier: ^2.17.2
-        version: 2.17.2
+        specifier: ^1.0.0
+        version: 1.22.10
       vue:
         specifier: ^2.7.10
         version: 2.7.16
@@ -1020,6 +1023,9 @@ packages:
 
   '@polka/url@1.0.0-next.28':
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
+
+  '@quasar/extras@1.16.13':
+    resolution: {integrity: sha512-6QdnYbFYhgeWFAwytUWTDgpP/mcJxydBmgO91cHr9MMTx0GLaVJY6d10m/G/XS9TzMnSsZgqO7kbVHf3Hvml3w==}
 
   '@trysound/sax@0.2.0':
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
@@ -4097,9 +4103,9 @@ packages:
     resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
     engines: {node: '>=0.6'}
 
-  quasar@2.17.2:
-    resolution: {integrity: sha512-wycJcrjXsNxyNFYaw7eviKAo0I3LaQap0GCHXUEiaAi4H+a9LJbgkoZSZKCP4M0UO4iVnkWVkQzsFodyHk5uHQ==}
-    engines: {node: '>= 10.18.1', npm: '>= 6.13.4', yarn: '>= 1.21.1'}
+  quasar@1.22.10:
+    resolution: {integrity: sha512-AMZ4SZ9i8+b5wdphzmgy60qYFkdTK/dB8KNgdqJ2t8+Hnnhi1IncldEFQlcqLT9diyg5RHgAHAW4GoAZMswgOw==}
+    engines: {node: '>= 10.0.0', npm: '>= 5.6.0', yarn: '>= 1.6.0'}
 
   query-string@4.3.4:
     resolution: {integrity: sha512-O2XLNDBIg1DnTOa+2XrIwSiXEV8h2KImXUnjhhn2+UsvZ+Es2uyd5CCRTNQlDGbzUQOW3aYCBx9rVA6dzsiY7Q==}
@@ -6507,6 +6513,8 @@ snapshots:
       stack-trace: 0.0.10
 
   '@polka/url@1.0.0-next.28': {}
+
+  '@quasar/extras@1.16.13': {}
 
   '@trysound/sax@0.2.0': {}
 
@@ -9998,7 +10006,7 @@ snapshots:
     dependencies:
       side-channel: 1.0.6
 
-  quasar@2.17.2: {}
+  quasar@1.22.10: {}
 
   query-string@4.3.4:
     dependencies:
