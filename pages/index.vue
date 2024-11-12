@@ -1,133 +1,168 @@
 <template>
-  <div class="task-page">
-    <!-- Navigation Bar -->
-    <nav class="navbar">
-      <div class="nav-left">
-        <span class="nav-title">Task Manager</span>
-      </div>
-      <div class="nav-right">
-        <button @click="handleLogout" class="logout-button">Logout</button>
-      </div>
-    </nav>
+  <q-layout view="lHh Lpr lFf">
+    <!-- Navigation Bar using QAppBar -->
+    <q-header elevated>
+      <q-app-bar>
+        <q-toolbar-title class="nav-title">Task Manager</q-toolbar-title>
+        <q-btn flat label="Logout" @click="handleLogout" color="primary" />
+      </q-app-bar>
+    </q-header>
 
-    <div class="centered-content">
-      <Task_Chart
-        :completedTasks="completedTasks"
-        :remainingTasks="remainingTasks"
-      />
-      <div class="task-container">
-        <h4>Task List</h4>
-        <div class="add-task-button-container">
-          <button @click="showAddModal = true" class="small-button">
-            Add Task
-          </button>
+    <q-page-container>
+      <div class="centered-content">
+        <!-- Task Chart with Centered Title -->
+        <div class="chart-container">
+          <Task_Chart :completedTasks="completedTasks" :remainingTasks="remainingTasks" />
+          <div class="chart-title">Task Statistics</div>
         </div>
 
-        <!-- Modal for adding task -->
-        <div
-          v-if="showAddModal"
-          class="modal-overlay"
-          @click.self="closeModals"
-        >
-          <div class="modal">
-            <h2>Add New Task</h2>
-            <form @submit.prevent="addNewTask">
-              <input
-                v-model="newTaskContent"
-                placeholder="Enter task"
-                required
-              />
-              <button type="submit" class="modal-button">Submit</button>
-              <button
-                type="button"
-                class="modal-button cancel"
-                @click="closeModals"
-              >
-                Cancel
-              </button>
-            </form>
+        <!-- Task List Section -->
+        <div class="task-container">
+          <div class="task-list-header">
+            <h4>Task List</h4>
           </div>
-        </div>
-
-        <!-- Modal for editing task -->
-        <div
-          v-if="showEditModal"
-          class="modal-overlay"
-          @click.self="closeModals"
-        >
-          <div class="modal">
-            <h2>Edit Task</h2>
-            <form @submit.prevent="updateTask">
-              <input
-                v-model="editTaskContent"
-                placeholder="Edit task"
-                required
-              />
-              <button type="submit" class="modal-button">Update</button>
-              <button
-                type="button"
-                class="modal-button cancel"
-                @click="closeModals"
-              >
-                Cancel
-              </button>
-            </form>
+          <div class="add-task-button-container">
+            <q-btn
+              label="Add Task"
+              @click="showAddModal = true"
+              color="primary"
+              class="add-task-button"
+            />
           </div>
+
+          <ul class="task-list" v-sortable="{ onEnd: onDragEnd }">
+            <li
+              v-for="task in tasks"
+              :key="task.id"
+              class="task-item"
+              draggable="true"
+            >
+              <div class="tasklistview">
+                <div class="left">
+                  <span class="drag-handle">&#x2630;</span>
+                  <input type="checkbox" :checked="task.complete" @change="toggleTask(task)" />
+                  <span :class="{ completed: task.complete }" class="task-title">
+                    {{ task.title }}
+                  </span>
+                </div>
+
+                <div class="right">
+                  <q-btn label="Edit" flat @click="openEditModal(task)" color="primary" class="small-button" />
+                  <q-btn label="Delete" flat @click="removeTask(task.id)" color="negative" class="small-button" />
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <!-- Add Task Modal using Quasar -->
+          <q-dialog v-model="showAddModal" persistent>
+            <q-card class="modal" style="background-color: #333;">
+              <q-card-section>
+                <div class="text-h6">Add New Task</div>
+              </q-card-section>
+              <q-card-section>
+                <q-form @submit="addNewTask">
+                  <q-input
+                    v-model="newTaskContent"
+                    placeholder="Enter task"
+                    filled
+                    dense
+                    hide-clearable
+                    style="background-color: #fff; color: white;"
+                  />
+                  <div class="modal-buttons">
+                    <q-btn
+                      label="Submit"
+                      type="submit"
+                      color="primary"
+                      class="modal-button"
+                    />
+                    <q-btn
+                      label="Cancel"
+                      flat
+                      @click="showAddModal = false"
+                      color="negative"
+                      class="modal-button"
+                    />
+                  </div>
+                </q-form>
+              </q-card-section>
+            </q-card>
+          </q-dialog>
+
+          <!-- Edit Task Modal using Quasar -->
+          <q-dialog v-model="showEditModal" persistent>
+            <q-card class="modal" style="background-color: #333;">
+              <q-card-section>
+                <div class="text-h6">Edit Task</div>
+              </q-card-section>
+              <q-card-section>
+                <q-form @submit="updateTask">
+                  <q-input
+                    v-model="editTaskContent"
+                    placeholder="Edit task"
+                    filled
+                    dense
+                    hide-clearable
+                    style="background-color: #fff; color: white;"
+                  />
+                  <div class="modal-buttons">
+                    <q-btn
+                      label="Update"
+                      type="submit"
+                      color="primary"
+                      class="modal-button"
+                    />
+                    <q-btn
+                      label="Cancel"
+                      flat
+                      @click="showEditModal = false"
+                      color="negative"
+                      class="modal-button"
+                    />
+                  </div>
+                </q-form>
+              </q-card-section>
+            </q-card>
+          </q-dialog>
         </div>
-
-        <ul class="task-list" v-sortable="{ onEnd: onDragEnd }">
-          <li
-            v-for="task in tasks"
-            :key="task.id"
-            class="task-item"
-            draggable="true"
-          >
-            <div class="tasklistview">
-              <div class="left">
-                <span class="drag-handle">&#x2630;</span>
-                <input
-                  type="checkbox"
-                  :checked="task.complete"
-                  @change="toggleTask(task)"
-                />
-                <span
-                  :class="{ completed: task.complete }"
-                  class="task-title"
-                  >{{ task.title }}</span
-                >
-              </div>
-
-              <div class="right">
-                <button
-                  @click="openEditModal(task)"
-                  class="edit-btn small-button"
-                >
-                  Edit
-                </button>
-                <button
-                  @click="removeTask(task.id)"
-                  class="delete-btn small-button"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
       </div>
-    </div>
-  </div>
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script>
 import Task_Chart from "@/components/Task_Chart.vue";
 import Sortable from "sortablejs";
-import 'quasar/dist/quasar.css';
+import {
+  QLayout,
+  QHeader,
+  QPageContainer,
+  QAppBar,
+  QBtn,
+  QToolbarTitle,
+  QDialog,
+  QCard,
+  QCardSection,
+  QForm,
+  QInput,
+} from "quasar";
 
 export default {
   middleware: "auth",
   components: {
     Task_Chart,
+    QLayout,
+    QHeader,
+    QPageContainer,
+    QAppBar,
+    QBtn,
+    QToolbarTitle,
+    QDialog,
+    QCard,
+    QCardSection,
+    QForm,
+    QInput,
   },
   directives: {
     sortable: {
@@ -177,10 +212,6 @@ export default {
     },
     updateTask() {
       if (this.editTaskContent.trim() && this.taskToEdit) {
-        if (this.editTaskContent === this.taskToEdit.title) {
-          alert('Add changes first');
-          return;
-        }
         this.$store.dispatch("updateTask", {
           taskId: this.taskToEdit.id,
           newTitle: this.editTaskContent,
@@ -188,17 +219,6 @@ export default {
         this.showEditModal = false;
         this.taskToEdit = null;
       }
-    },
-    closeModals() {
-      this.showAddModal = false;
-      this.showEditModal = false;
-    },
-    onDragEnd(event) {
-      const reorderedTasks = Array.from(this.tasks);
-      const [movedItem] = reorderedTasks.splice(event.oldIndex, 1);
-      reorderedTasks.splice(event.newIndex, 0, movedItem);
-
-      this.$store.dispatch("updateTaskOrder", reorderedTasks);
     },
     handleLogout() {
       localStorage.removeItem("access_token");
@@ -212,3 +232,48 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.centered-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 70px;
+}
+.task-container {
+  width: 50%;
+  max-height: 550px;
+  overflow-y: auto;
+  background-color: #2a2d3e;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  margin-top: 20px;
+}
+.add-task-button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2rem;
+}
+.chart-title {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+.modal-button {
+  margin-top: 1rem;
+}
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+</style>

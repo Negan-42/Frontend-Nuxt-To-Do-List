@@ -27,7 +27,7 @@ importers:
         specifier: ^2.15.8
         version: 2.18.1(consola@3.2.3)(vue@2.7.16)
       quasar:
-        specifier: ^1.0.0
+        specifier: ^1.22.10
         version: 1.22.10
       vue:
         specifier: ^2.7.10

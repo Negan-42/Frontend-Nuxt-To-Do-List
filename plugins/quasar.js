@@ -1,7 +1,8 @@
-import Vue from 'vue';
-import Quasar from 'quasar';
-import 'quasar/dist/quasar.min.css'; // Use the correct path for Quasar v1
+// plugins/quasar.js
+
+import Vue from 'vue'
+import Quasar from 'quasar'
 
 Vue.use(Quasar, {
-  config: {},
-});
+  config: {}
+})
