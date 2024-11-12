@@ -4,6 +4,11 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
+ // Server configuration for Render deployment
+ server: {
+  host: '0.0.0.0', // Bind to 0.0.0.0 to allow external connections
+  port: process.env.PORT || 3000, // Use the PORT environment variable if available
+},
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "Frontend",
