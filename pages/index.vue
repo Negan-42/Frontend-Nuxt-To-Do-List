@@ -155,7 +155,6 @@ export default {
     QLayout,
     QHeader,
     QPageContainer,
-    QAppBar,
     QBtn,
     QToolbarTitle,
     QDialog,
@@ -234,46 +233,4 @@ export default {
 </script>
 
 <style scoped>
-.centered-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 1200px;
-  margin-top: 70px;
-}
-.task-container {
-  width: 50%;
-  max-height: 550px;
-  overflow-y: auto;
-  background-color: #2a2d3e;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  margin-top: 20px;
-}
-.add-task-button-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-.chart-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-right: 2rem;
-}
-.chart-title {
-  margin-top: 0.5rem;
-  font-size: 1.5rem;
-  color: #ffffff;
-}
-.modal-button {
-  margin-top: 1rem;
-}
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-}
 </style>

@@ -1,14 +1,22 @@
 /* ================= General Styling ================= */
 body {
   background-color: #1e1f29;
-  /* Dark background for modern look */
   color: #ffffff;
-  /* White text for readability */
   font-family: 'Roboto', sans-serif;
-  overflow: hidden;
+  overflow-x: hidden; /* Allow vertical scrolling but hide horizontal scrolling */
+  min-height: 100vh;
 }
 
 /* ================= Page Layout ================= */
+.centered-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 70px; /* Adjusted for fixed navbar */
+}
+
 .task-page {
   display: flex;
   justify-content: center;
@@ -16,30 +24,21 @@ body {
   padding: 2rem;
   min-height: 100vh;
   background-color: #1a1b26;
-}
-
-.centered-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 1200px;
+  overflow-y: auto; /* Allow vertical scrolling within task page */
 }
 
 /* ================= Containers ================= */
 .task-container {
   width: 50%;
   max-height: 550px;
-  /* Define a fixed height for the task container */
-  overflow-y: auto;
-  /* Enable vertical scrolling */
+  overflow-y: auto; /* Allow vertical scroll within task container */
   background-color: #2a2d3e;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   margin-top: 20px;
-  /*  space between the chart and the task container */
 }
+
 
 .add-task-button-container {
   display: flex;
@@ -47,22 +46,6 @@ body {
   margin-bottom: 1rem;
 }
 
-/* .logout-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
-.logout-container a {
-  color: #007bff;
-  text-decoration: none;
-  font-size: 1rem;
-}
-
-.logout-container a:hover {
-  text-decoration: underline;
-}
- */
 /* ================= Task Items ================= */
 .task-list {
   list-style-type: none;
@@ -70,9 +53,7 @@ body {
   max-width: 500px;
   margin: 20px auto;
   border-radius: 5px;
-
 }
-
 
 .task-item {
   display: flex;
@@ -88,7 +69,6 @@ body {
 .drag-handle {
   cursor: move;
   color: #888888;
-  /* Subtle color for drag handle */
 }
 
 .tasklistview {
@@ -100,24 +80,16 @@ body {
   gap: 10px;
 }
 
-.left {
-  gap: 10px;
+.left, .right {
   display: flex;
+  gap: 10px;
   width: 100%;
 }
-
-.right {
-  gap: 10px;
-  display: flex;
-}
-
-
 
 /* ================= Buttons ================= */
 button {
   padding: 0.5rem 1rem;
   background-color: #007bff;
-  /* Bright blue for primary buttons */
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -128,7 +100,6 @@ button {
 
 button:hover {
   background-color: #0056d2;
-  /* Darker blue for hover */
 }
 
 .small-button {
@@ -138,36 +109,18 @@ button:hover {
 
 .edit-btn {
   background-color: #28a745;
-  /* Green for edit */
 }
 
 .edit-btn:hover {
   background-color: #218838;
-  /* Darker green for hover */
 }
 
 .delete-btn {
   background-color: #dc3545;
-  /* Red for delete */
 }
 
 .delete-btn:hover {
   background-color: #c82333;
-  /* Darker red for hover */
-}
-
-input {
-  padding: 0.8rem;
-  border: 1px solid #444;
-  border-radius: 5px;
-  background-color: #2e313d;
-  color: #ffffff;
-}
-
-input:focus {
-  outline: none;
-  border-color: #007bff;
-  /* Blue border on focus */
 }
 
 /* ================= Modal Styling ================= */
@@ -185,7 +138,6 @@ input:focus {
 
 .modal {
   background-color: #262833;
-  /* Dark modal background */
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
@@ -215,6 +167,12 @@ input:focus {
   background-color: #0056d2;
 }
 
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
 .modal-button.cancel {
   background-color: #444;
 }
@@ -223,28 +181,7 @@ input:focus {
   background-color: #333;
 }
 
-/* ================= Media Queries ================= */
-@media (max-width: 768px) {
-  .centered-content {
-    flex-direction: column;
-    padding: 1rem;
-  }
-
-  .task-container {
-    width: 100%;
-  }
-
-  .task-item-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .task-actions {
-    justify-content: space-between;
-    width: 100%;
-  }
-}
-
+/* ================= Navbar ================= */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -261,11 +198,13 @@ input:focus {
   z-index: 1000;
   border-bottom: 1px solid #333;
 }
+
 .nav-title {
   font-size: 20px;
   font-weight: bold;
 }
-.nav-right .logout-button {
+
+.logout-button {
   background-color: #007bff;
   color: white;
   border: none;
@@ -274,9 +213,74 @@ input:focus {
   cursor: pointer;
   border-radius: 3px;
 }
+
 .logout-button:hover {
   background-color: #0056b3;
 }
-.centered-content {
-  margin-top: 70px; /* Adjusted for fixed navbar */
+
+/* ================= Chart Styling ================= */
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.chart-title {
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+  color: #ffffff;
+}
+
+/* ================= Media Queries ================= */
+@media (max-width: 768px) {
+  .centered-content {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .task-container {
+    width: 100%;
+    max-height: 60vh; /* Limit height to ensure better scrolling experience on mobile */
+    overflow-y: auto;
+  }
+
+  .tasklistview, .left, .right {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .task-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chart-container {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  .task-container {
+    padding: 1rem;
+    max-height: 50vh;
+  }
+
+  .modal h2 {
+    font-size: 1.5rem;
+  }
+
+  button, .modal-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .nav-title {
+    font-size: 18px;
+  }
 }
