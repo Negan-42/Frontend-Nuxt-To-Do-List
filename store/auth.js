@@ -39,7 +39,7 @@ export const actions = {
 
   async login({ commit, dispatch }, credentials) {
     try {
-      const response = await this.$api.post('/token/', {
+      const response = await this.$api.post('/api/token/', {
         username: credentials.username,
         password: credentials.password,
       });
@@ -72,7 +72,7 @@ export const actions = {
 
   async refreshToken({ commit, state, dispatch }) {
     try {
-      const response = await this.$axios.post('/token/refresh/', {
+      const response = await this.$axios.post('/api/token/refresh/', {
         refresh: state.refreshToken,
       });
       commit('SET_TOKEN', response.data.access);
