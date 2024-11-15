@@ -3,14 +3,15 @@
     <div class="login-container">
       <h1>Login</h1>
       <form @submit.prevent="handleLogin">
-        <input v-model="username" placeholder="Username" required />
+        <input v-model="username" placeholder="Username" required data-cy="Username"/>
         <input
           v-model="password"
           type="password"
           placeholder="Password"
           required
+          data-cy="Password"
         />
-        <button type="submit">Login</button>
+        <button type="submit" name="Login button" data-cy="login-button">Login</button>
       </form>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
 

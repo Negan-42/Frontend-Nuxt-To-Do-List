@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export default function (context, inject) {
   const api = axios.create({
-    baseURL: 'https://to-do-backend-46nr.onrender.com/', // Replace with your backend URL
+    baseURL: 'http://127.0.0.1:8000/', // Replace with your backend URL
   })
 
   // Add a request interceptor to include JWT token

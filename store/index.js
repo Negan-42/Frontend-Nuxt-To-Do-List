@@ -46,7 +46,7 @@ export const mutations = {
 export const actions = {
   async loadTasks({ commit }) {
     try {
-      const response = await this.$api.get('tasks/get/');
+      const response = await this.$api.get('api/tasks/get/');
       commit('SET_TASKS', response.data);
     } catch (error) {
       console.error('Error loading tasks:', error);
@@ -55,7 +55,7 @@ export const actions = {
   
   async loadCompletedTasks({ commit }) {
     try {
-      const response = await this.$api.get('tasks/get?complete=true');
+      const response = await this.$api.get('api/tasks/get?complete=true');
       commit('SET_TASKS', response.data);
     } catch (error) {
       console.error('Error loading completed tasks:', error);
@@ -64,7 +64,7 @@ export const actions = {
   
   async addTask({ commit }, taskData) {
     try {
-      const response = await this.$api.post('tasks/save/', taskData);
+      const response = await this.$api.post('api/tasks/save/', taskData);
       commit('ADD_TASK', response.data);
     } catch (error) {
       console.error('Error adding task:', error);
@@ -73,7 +73,7 @@ export const actions = {
   
   async removeTask({ commit }, taskId) {
     try {
-      await this.$api.delete(`tasks/delete/${taskId}/`);
+      await this.$api.delete(`api/tasks/delete/${taskId}/`);
       commit('REMOVE_TASK', taskId);
     } catch (error) {
       console.error('Error removing task:', error);
@@ -87,7 +87,7 @@ export const actions = {
       
       // Ensure the correct property is toggled
       const updatedTask = { complete: !currentTask.complete };
-      const response = await this.$api.put(`tasks/update/${taskId}/`, updatedTask);
+      const response = await this.$api.put(`api/tasks/update/${taskId}/`, updatedTask);
       commit('TOGGLE_TASK', response.data);
     } catch (error) {
       console.error('Error toggling task:', error);
@@ -97,7 +97,7 @@ export const actions = {
   
   async updateTask({ commit }, { taskId, newTitle }) {
     try {
-      const response = await this.$api.put(`tasks/update/${taskId}/`, { title: newTitle });
+      const response = await this.$api.put(`api/tasks/update/${taskId}/`, { title: newTitle });
       if (response.data) {
         commit('UPDATE_TASK', { taskId, newTitle });
       }
@@ -108,7 +108,7 @@ export const actions = {
   
   async completeTask({ commit }, taskId) {
     try {
-      const response = await this.$api.put(`tasks/complete/${taskId}/`);
+      const response = await this.$api.put(`api/tasks/complete/${taskId}/`);
       if (response.data && response.data.complete !== undefined) {
         commit('COMPLETE_TASK', taskId);
       }
@@ -120,7 +120,7 @@ export const actions = {
   async updateTaskOrder({ commit }, newTasks) {
     try {
       // Make sure the request matches your backend API format
-      await this.$api.put('tasks/update-order/', { tasks: newTasks });
+      await this.$api.put('api/tasks/update-order/', { tasks: newTasks });
       commit('UPDATE_TASK_ORDER', newTasks);
     } catch (error) {
       console.error('Error updating task order:', error);

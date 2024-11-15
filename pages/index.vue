@@ -17,7 +17,7 @@
         </div>
 
         <!-- Task List Section -->
-        <div class="task-container">
+        <div class="task-container" data-cy="Task List">
           <div class="task-list-header">
             <h4>Task List</h4>
           </div>
@@ -27,6 +27,7 @@
               @click="showAddModal = true"
               color="primary"
               class="add-task-button"
+              data-cy="Add Task button"
             />
           </div>
 
@@ -40,7 +41,7 @@
               <div class="tasklistview">
                 <div class="left">
                   <span class="drag-handle">&#x2630;</span>
-                  <input type="checkbox" :checked="task.complete" @change="toggleTask(task)" />
+                  <input type="checkbox" :checked="task.complete" @change="toggleTask(task)" data-cy="Task Checkbox" />
                   <span :class="{ completed: task.complete }" class="task-title">
                     {{ task.title }}
                   </span>
@@ -69,6 +70,7 @@
                     dense
                     hide-clearable
                     style="background-color: #fff; color: white;"
+                    data-cy="Add Task Place"
                   />
                   <div class="modal-buttons">
                     <q-btn
@@ -76,6 +78,7 @@
                       type="submit"
                       color="primary"
                       class="modal-button"
+                      data-cy="Add Task Submit"
                     />
                     <q-btn
                       label="Cancel"
@@ -83,6 +86,7 @@
                       @click="showAddModal = false"
                       color="negative"
                       class="modal-button"
+                      data-cy="Add Task Cancel"
                     />
                   </div>
                 </q-form>
@@ -105,6 +109,7 @@
                     dense
                     hide-clearable
                     style="background-color: #fff; color: white;"
+                    data-cy="Edit Task Place"
                   />
                   <div class="modal-buttons">
                     <q-btn
@@ -112,6 +117,7 @@
                       type="submit"
                       color="primary"
                       class="modal-button"
+                      data-cy="Edit Task Submit"
                     />
                     <q-btn
                       label="Cancel"
